@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Slack Clone</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('your-background-image-url.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #content {
+            display: flex;
+        }
+
+        #channels,
+        #directMessages {
+            width: 250px;
+            background-color: #e0e0e0;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 500px; /* Adjust the max height as needed */
+        }
+
+        #messages {
+            flex: 1;
+            padding: 20px;
+            background-color: #f0f0f0;
+            overflow-y: auto;
+            max-height: 500px; /* Adjust the max height as needed */
+        }
+
+        #notification {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            display: none;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+
+        #login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* Transparent white background */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Simple Slack Clone</h1>
+    </header>
+
+    <div id="content">
+        <div id="channels">
+            <h2>Channels</h2>
+            <ul id="channelList"></ul>
+            <button onclick="createChannel()">Create Channel</button>
+        </div>
+
+        <div id="messages">
+            <h2>Messages</h2>
+            <ul id="messageList"></ul>
+            <input type="text" id="messageInput" placeholder="Type your message">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
+        <div id="directMessages">
+            <h2>Direct Messages</h2>
+            <ul id="directMessageList"></ul>
+        </div>
+    </div>
+
+    <div id="notification">Notification Message</div>
+
+    <!-- Login Page -->
+    <div id="login-container">
+        <h2>Login</h2>
+        <form>
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="Enter your username">
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter your password">
+
+            <button type="button" onclick="login()">Login</button>
+        </form>
+    </div>
+
+    <script>
+        function createChannel() {
+            const channelName = prompt("Enter channel name:");
+            if (channelName) {
+                const channelList = document.getElementById("channelList");
+                const channelItem = document.createElement("li");
+                channelItem.textContent = channelName;
+                channelList.appendChild(channelItem);
+            }
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById("messageInput");
+            const messageContent = messageInput.value;
+            if (messageContent) {
+                const messageList = document.getElementById("messageList");
+                const messageItem = document.createElement("li");
+                const currentTime = new Date().toLocaleTimeString();
+                messageItem.textContent = `[${currentTime}] User: ${messageContent}`;
+                messageList.appendChild(messageItem);
+                messageInput.value = "";
+                messageList.scrollTop = messageList.scrollHeight; // Auto-scroll to the bottom
+            }
+        }
+
+        // You can add more functions for direct messages, authentication, and notifications.
+
+        // Example notification function:
+        function showNotification(message) {
+            const notification = document.getElementById("notification");
+            notification.textContent = message;
+            notification.style.display = "block";
+
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, 3000);
+        }
+
+        // Example login function:
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Add your authentication logic here (this is a basic example)
+            if (username && password) {
+                showNotification(`Welcome, ${username}!`);
+                document.getElementById("login-container").style.display = "none";
+            } else {
+                showNotification("Invalid credentials. Please try again.");
+            }
+        }
+    </script>
+</body>
+</html>
